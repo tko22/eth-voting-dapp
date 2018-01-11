@@ -1,2 +1,2 @@
-# de-voting
-decentralized voting application built on the ethereum blockchain
+# voting-eth
+Decentralized voting application built on the ethereum blockchain

@@ -1,0 +1,22 @@
+{
+  "name": "voting-eth",
+  "version": "1.0.0",
+  "description": "decentralized voting application on the ethereum blockchain",
+  "main": "poll/index.js",
+  "dependencies": {
+    "truffle": "^4.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tko22/voting-eth.git"
+  },
+  "author": "Timothy Ko (tk2@illinois.edu)",
+  "bugs": {
+    "url": "https://github.com/tko22/voting-eth/issues"
+  },
+  "homepage": "https://github.com/tko22/voting-eth#readme"
+}
