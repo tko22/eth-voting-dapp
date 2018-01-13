@@ -15,7 +15,7 @@ $( document ).ready(function() {
   // Is there an injected web3 instance?
   if (typeof web3 !== 'undefined') {
     console.warn("Using web3 detected from external source like Metamask")
-    // Use Mist/MetaMask's provider
+    // If there is a web3 instance(in Mist/Metamask), then we use its provider to create our web3object
     window.web3 = new Web3(web3.currentProvider);
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:7545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
@@ -24,6 +24,5 @@ $( document ).ready(function() {
   }
 
   Voting.setProvider(web3.currentProvider);
-  populateCandidates();
 
 });
