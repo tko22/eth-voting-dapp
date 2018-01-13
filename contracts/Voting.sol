@@ -2,10 +2,17 @@ pragma solidity ^0.4.20;
 
 contract Voting {
 
+    struct Voters {
+        bytes32 id;
+        uint candidateIDVote;
+    }
+
     struct Candidate {
         bytes32 name;
+        bytes32 party;
         uint numOfVotes;
     }
+
     uint numCandidates;
     // Think of this as a hash table, with the key as a uint and value of the struct Candidate
     mapping (uint => Candidate) candidates;
@@ -24,4 +31,5 @@ contract Voting {
     function totalVotes(uint candidateID) view public returns (uint) {
         return candidates[candidateID].numOfVotes;
     }
-}
+
+    
