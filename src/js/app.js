@@ -7,9 +7,12 @@ import votingArtifacts from '../../build/contracts/Voting.json'
 var Voting = contract(voting_artifacts)
 
 
+
+
+
 $(document).ready(function() {
   // Is there an injected web3 instance?
-  if (typeof web3 !== 'undefined') {
+  if (typeof web3 !== "undefined") {
     console.warn("Using web3 detected from external source like Metamask")
     // If there is a web3 instance(in Mist/Metamask), then we use its provider to create our web3object
     window.web3 = new Web3(web3.currentProvider)
