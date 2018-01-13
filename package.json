@@ -15,6 +15,8 @@
   "devDependencies": {
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "lite-server": "^2.3.0"
+    "lite-server": "^2.3.0",
+    "truffle-contract": "^3.0.1",
+    "web3": "^1.0.0-beta.27"
   }
 }

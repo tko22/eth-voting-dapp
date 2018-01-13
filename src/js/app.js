@@ -1,68 +1,29 @@
-App = {
-  web3Provider: null,
-  contracts: {},
+import "../stylesheets/app.css";
 
-  init: function() {
-    // Load pets.
-    $.getJSON('../pets.json', function(data) {
-      var petsRow = $('#petsRow');
-      var petTemplate = $('#petTemplate');
+// Import libraries we need.
+import { default as Web3} from 'web3';
+import { default as contract } from 'truffle-contract'
 
-      for (i = 0; i < data.length; i ++) {
-        petTemplate.find('.panel-title').text(data[i].name);
-        petTemplate.find('img').attr('src', data[i].picture);
-        petTemplate.find('.pet-breed').text(data[i].breed);
-        petTemplate.find('.pet-age').text(data[i].age);
-        petTemplate.find('.pet-location').text(data[i].location);
-        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+import voting_artifacts from '../../build/contracts/Voting.json'
 
-        petsRow.append(petTemplate.html());
-      }
-    });
+var Voting = contract(voting_artifacts);
 
-    return App.initWeb3();
-  },
 
-  initWeb3: function() {
-    /*
-     * Replace me...
-     */
 
-    return App.initContract();
-  },
 
-  initContract: function() {
-    /*
-     * Replace me...
-     */
-
-    return App.bindEvents();
-  },
-
-  bindEvents: function() {
-    $(document).on('click', '.btn-adopt', App.handleAdopt);
-  },
-
-  markAdopted: function(adopters, account) {
-    /*
-     * Replace me...
-     */
-  },
-
-  handleAdopt: function(event) {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-
-    /*
-     * Replace me...
-     */
+$( document ).ready(function() {
+  // Is there an injected web3 instance?
+  if (typeof web3 !== 'undefined') {
+    console.warn("Using web3 detected from external source like Metamask")
+    // Use Mist/MetaMask's provider
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    console.warn("No web3 detected. Falling back to http://localhost:7545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
   }
 
-};
+  Voting.setProvider(web3.currentProvider);
+  populateCandidates();
 
-$(function() {
-  $(window).load(function() {
-    App.init();
-  });
 });
