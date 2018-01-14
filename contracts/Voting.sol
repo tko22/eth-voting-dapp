@@ -13,8 +13,8 @@ contract Voting {
         bool doesExist;
     }
 
-    uint numCandidates;
-    uint numVoters;
+    uint public numCandidates;
+    uint public numVoters;
     // Think of this as a hash table, with the key as a uint and value of the struct Candidate
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;

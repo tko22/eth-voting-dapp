@@ -4,13 +4,16 @@ import { default as contract } from 'truffle-contract'
 
 import votingArtifacts from '../../build/contracts/Voting.json'
 
-var Voting = contract(votingArtifacts)
+var VotingContract = contract(votingArtifacts)
 
 window.App = {
   start: function() {
-    Voting.setProvider(window.web3.currentProvider)
-    console.log("start")
+    VotingContract.setProvider(window.web3.currentProvider)
+    VotingContract.deployed().then(function(instance){
+      instance.
+    })
   }
+
 }
 
 
