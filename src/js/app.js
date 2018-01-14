@@ -10,8 +10,9 @@ window.App = {
   start: function() {
     
     VotingContract.setProvider(window.web3.currentProvider)
+    VotingContract.defaults({from: window.web3.eth.accounts[0]})
     VotingContract.deployed().then(function(instance){
-      instance.getNumOfCandidates.call({gas: 140000, from: window.web3.eth.defaultAccount}).then(function(numOfCandidates){
+      instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
             $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate1</button>`)
