@@ -10,9 +10,25 @@ window.App = {
   start: function() {
     VotingContract.setProvider(window.web3.currentProvider)
     VotingContract.deployed().then(function(instance){
-      instance.
+      instance.getNumOfCandidates().then(function(numOfCandidates){
+        if (numOfCandidates == 0){
+          instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
+            $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate1</button>`)
+          })
+          instance.addCandidate("Candidate2","Republican").then(function(candidateID){
+            $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate2</button>`)
+          })
+        }
+        else {
+          for (var i = 0; i < instance.getNumOfCandidates; i++ ){
+            instance.getCandidate(i).then(function(data){
+              $(".candidate-box").append(`<button class='btn' id='${data[0]}'>${data[1]}</button>`)
+            })
+          }
+        }
+      })
     })
-  }
+  },
 
 }
 

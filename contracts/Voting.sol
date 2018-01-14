@@ -19,15 +19,15 @@ contract Voting {
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
 
-    function addCandidate(bytes32 name) public returns (uint candidateID) {
+    function addCandidate(bytes32 name, bytes32 party) public returns (uint candidateID) {
         // candidateID is the return variable
         candidateID = numCandidates++;
         // Create new Candidate Struct with name and saves it to storage.
-        candidates[candidateID] = Candidate(name,0,true);
+        candidates[candidateID] = Candidate(name,party,true);
     }
 
-    function getCandidate(uint candidateID) public constant returns (bytes32, bytes32) {
-        return (candidates[candidateID].name,candidates[candidateID].party);
+    function getCandidate(uint candidateID) public constant returns (uint,bytes32, bytes32) {
+        return (candidateID,candidates[candidateID].name,candidates[candidateID].party);
     }
 
     function vote(bytes32 uid, uint candidateID) public returns (uint voterID) {
