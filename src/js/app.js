@@ -10,15 +10,8 @@ window.App = {
   start: function() {
     
     VotingContract.setProvider(window.web3.currentProvider)
-    if (typeof VotingContract.currentProvider.sendAsync !== "function") {
-      VotingContract.currentProvider.sendAsync = function() {
-        return VotingContract.currentProvider.send.apply(
-          VotingContract.currentProvider, arguments
-        )
-      }
-    }
     VotingContract.deployed().then(function(instance){
-      instance.getNumOfCandidates().then(function(numOfCandidates){
+      instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
             $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate1</button>`)
@@ -53,7 +46,7 @@ window.addEventListener("load", function() {
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:7545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"))
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"))
   }
   window.App.start()
 })
