@@ -15,16 +15,18 @@ window.App = {
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
-            $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate1</button>`)
+            $(".candidate-box").append(`<button class="btn btn-primary" id=${candidateID}>Candidate1</button>`)
           })
           instance.addCandidate("Candidate2","Republican").then(function(candidateID){
-            $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate2</button>`)
+            $(".candidate-box").append(`<button class="btn btn-primary" id=${candidateID}>Candidate2</button>`)
           })
         }
         else {
-          for (var i = 0; i < instance.getNumOfCandidates; i++ ){
+          console.log(instance.getNumOfCandidates())
+          for (var i = 0; i < instance.getNumOfCandidates(); i++ ){
             instance.getCandidate(i).then(function(data){
-              $(".candidate-box").append(`<button class='btn' id='${data[0]}'>${data[1]}</button>`)
+              console.log(data)
+              $(".candidate-box").append(`<button class='btn btn-primary' id='${data[0]}'>${data[1]}</button>`)
             })
           }
         }
