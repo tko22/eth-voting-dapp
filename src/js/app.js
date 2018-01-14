@@ -11,7 +11,7 @@ window.App = {
     
     VotingContract.setProvider(window.web3.currentProvider)
     VotingContract.deployed().then(function(instance){
-      instance.getNumOfCandidates.call().then(function(numOfCandidates){
+      instance.getNumOfCandidates.call({gas: 140000, from: window.web3.eth.defaultAccount}).then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
             $(".candidate-box").append(`<button class='btn' id=${candidateID}>Candidate1</button>`)
@@ -44,7 +44,7 @@ window.addEventListener("load", function() {
     // If there is a web3 instance(in Mist/Metamask), then we use its provider to create our web3object
     window.web3 = new Web3(web3.currentProvider)
   } else {
-    console.warn("No web3 detected. Falling back to http://localhost:7545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
+    console.warn("No web3 detected. Falling back to http://localhost:9545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask")
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"))
   }
