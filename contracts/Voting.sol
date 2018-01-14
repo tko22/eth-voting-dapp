@@ -13,8 +13,8 @@ contract Voting {
         bool doesExist;
     }
 
-    uint public numCandidates;
-    uint public numVoters;
+    uint numCandidates;
+    uint numVoters;
     // Think of this as a hash table, with the key as a uint and value of the struct Candidate
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
@@ -26,8 +26,12 @@ contract Voting {
         candidates[candidateID] = Candidate(name,0,true);
     }
 
-    function vote(bytes32 uid, uint candidateID) public returns (uint voterID){
-        if (candidates[candidateID].doesExist == true){
+    function getCandidate(uint candidateID) public constant returns (bytes32, bytes32) {
+        return (candidates[candidateID].name,candidates[candidateID].party);
+    }
+
+    function vote(bytes32 uid, uint candidateID) public returns (uint voterID) {
+        if (candidates[candidateID].doesExist == true) {
             voterID = numVoters++;
             voters[voterID] = Voter(uid,candidateID);
         }
@@ -41,5 +45,13 @@ contract Voting {
             }
         }
         return numOfVotes;
+    }
+
+    function getNumOfCandidates() public constant returns(uint) {
+        return numCandidates;
+    }
+
+    function getNumOfVoters() public constant returns(uint) {
+        return numVoters;
     }
 }
