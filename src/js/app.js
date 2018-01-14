@@ -1,16 +1,21 @@
 // Import libraries we need.
-import { default as Web3} from 'web3';
+import { default as Web3} from 'web3'
 import { default as contract } from 'truffle-contract'
 
 import votingArtifacts from '../../build/contracts/Voting.json'
 
-var Voting = contract(voting_artifacts)
+var Voting = contract(votingArtifacts)
+
+window.App = {
+  start: function() {
+    Voting.setProvider(window.web3.currentProvider)
+    console.log("start")
+  }
+}
 
 
 
-
-
-$(document).ready(function() {
+window.addEventListener("load", function() {
   // Is there an injected web3 instance?
   if (typeof web3 !== "undefined") {
     console.warn("Using web3 detected from external source like Metamask")
@@ -21,6 +26,5 @@ $(document).ready(function() {
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"))
   }
-
-  Voting.setProvider(web3.currentProvider)
+  window.App.start()
 })
