@@ -1,14 +1,22 @@
 // Import libraries we need.
-import { default as Web3} from 'web3'
-import { default as contract } from 'truffle-contract'
+import { default as Web3} from "web3"
+import { default as contract } from "truffle-contract"
 
-import votingArtifacts from '../../build/contracts/Voting.json'
+import votingArtifacts from "../../build/contracts/Voting.json"
 
 var VotingContract = contract(votingArtifacts)
 
 window.App = {
   start: function() {
+    
     VotingContract.setProvider(window.web3.currentProvider)
+    if (typeof VotingContract.currentProvider.sendAsync !== "function") {
+      VotingContract.currentProvider.sendAsync = function() {
+        return VotingContract.currentProvider.send.apply(
+          VotingContract.currentProvider, arguments
+        )
+      }
+    }
     VotingContract.deployed().then(function(instance){
       instance.getNumOfCandidates().then(function(numOfCandidates){
         if (numOfCandidates == 0){
@@ -27,6 +35,8 @@ window.App = {
           }
         }
       })
+    }).catch(function(err){
+      console.error("ERROR! " + err.message)
     })
   },
 
