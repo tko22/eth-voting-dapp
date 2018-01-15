@@ -1,3 +1,6 @@
+// import CSS. Webpack with deal with it
+import "../css/style.css"
+
 // Import libraries we need.
 import { default as Web3} from "web3"
 import { default as contract } from "truffle-contract"
@@ -15,17 +18,17 @@ window.App = {
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
-            $(".candidate-box").append(`<button class="btn btn-primary" id=${candidateID}>Candidate1</button>`)
+            $(".candidate-box").append(`<div class="btn-box"><button class="btn btn-primary" id=${candidateID}>Candidate1</button></div>`)
           })
           instance.addCandidate("Candidate2","Republican").then(function(candidateID){
-            $(".candidate-box").append(`<button class="btn btn-primary" id=${candidateID}>Candidate2</button>`)
+            $(".candidate-box").append(`<div class="btn-box"><button class="btn btn-primary" id=${candidateID}>Candidate2</button></div>`)
           })
         }
         else {
           
           for (var i = 0; i < numOfCandidates; i++ ){
             instance.getCandidate(i).then(function(data){
-              $(".candidate-box").append(`<button class='btn btn-primary' id='${data[0]}'>${window.web3.toAscii(data[1])}</button>`)
+              $(".candidate-box").append(`<div class="btn-box"><button class='btn btn-primary' id='${data[0]}'>${window.web3.toAscii(data[1])}</button></div>`)
             })
           }
         }
