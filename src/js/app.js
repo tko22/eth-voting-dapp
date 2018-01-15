@@ -11,7 +11,6 @@ var VotingContract = contract(votingArtifacts)
 
 window.App = {
   start: function() {
-    
     VotingContract.setProvider(window.web3.currentProvider)
     VotingContract.defaults({from: window.web3.eth.accounts[0]})
     VotingContract.deployed().then(function(instance){
@@ -37,10 +36,13 @@ window.App = {
       console.error("ERROR! " + err.message)
     })
   },
+  vote: function() {
+    VotingContract.deployed().then(function(instance){
+      
+    })
+  }
 
 }
-
-
 
 window.addEventListener("load", function() {
   // Is there an injected web3 instance?
