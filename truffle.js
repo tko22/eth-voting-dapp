@@ -9,4 +9,4 @@ module.exports = {
       gas:6721975
     }
   }
-};
+}

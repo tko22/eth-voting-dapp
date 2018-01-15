@@ -22,11 +22,10 @@ window.App = {
           })
         }
         else {
-          console.log(instance.getNumOfCandidates())
-          for (var i = 0; i < instance.getNumOfCandidates(); i++ ){
+          
+          for (var i = 0; i < numOfCandidates; i++ ){
             instance.getCandidate(i).then(function(data){
-              console.log(data)
-              $(".candidate-box").append(`<button class='btn btn-primary' id='${data[0]}'>${data[1]}</button>`)
+              $(".candidate-box").append(`<button class='btn btn-primary' id='${data[0]}'>${window.web3.toAscii(data[1])}</button>`)
             })
           }
         }
