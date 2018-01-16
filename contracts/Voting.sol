@@ -1,6 +1,7 @@
 pragma solidity ^0.4.18;
 
 contract Voting {
+    event SomeoneVoted(uint candidateID);
 
     struct Voter {
         bytes32 uid;
@@ -12,7 +13,7 @@ contract Voting {
         bytes32 party;
         bool doesExist;
     }
-
+    
     uint numCandidates;
     uint numVoters;
     // Think of this as a hash table, with the key as a uint and value of the struct Candidate
@@ -35,6 +36,7 @@ contract Voting {
             voterID = numVoters++;
             voters[voterID] = Voter(uid,candidateID);
         }
+        SomeoneVoted(candidateID);
     }
 
     function totalVotes(uint candidateID) view public returns (uint) {

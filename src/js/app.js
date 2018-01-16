@@ -24,7 +24,6 @@ window.App = {
           })
         }
         else {
-          
           for (var i = 0; i < numOfCandidates; i++ ){
             instance.getCandidate(i).then(function(data){
               $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${data[0]}><label class="form-check-label" for=${data[0]}>${window.web3.toAscii(data[1])}</label></div>`)
@@ -43,6 +42,7 @@ window.App = {
       return
     }
     if ($('.candidate-box :checkbox:checked').length > 0){
+      // just takes the first checked box
       var candidateID = ('.candidate-box :checkbox:checked')[0].id
     } 
     else {

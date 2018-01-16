@@ -20,14 +20,27 @@
           <br/>
         </div>
       </div>
-      <div class="col-md-4">
-        <p>Add ID and click candidate to vote</p>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" id="id-input" placeholder="Enter ID">
+      <div class="row">
+        <div class="col-md-4">
+          <p>Add ID and click candidate to vote</p>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" id="id-input" placeholder="Enter ID">
+          </div>
+          <div class="candidate-box"></div>
+          <button class="btn btn-primary" onclick="App.vote()">Vote</button>
+          <div class="msg"></div>
         </div>
-        <div class="candidate-box"></div>
-        <button class="btn btn-primary" onclick="App.vote()">Vote</button>
-        <div class="msg"></div>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Candidate</th>
+                    <th scope="col">Votes</th>
+                  </tr>
+                </thead>
+            </table>
+
+        </div>
       </div>
     </div>
     
