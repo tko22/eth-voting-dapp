@@ -17,17 +17,17 @@ window.App = {
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
-            $(".candidate-box").append(`<div class="btn-box"><button class="btn btn-primary" id=${candidateID}>Candidate1</button></div>`)
+            $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${candidateID}><label class="form-check-label" for=${candidateID}>Candidate1</label></div>`)
           })
           instance.addCandidate("Candidate2","Republican").then(function(candidateID){
-            $(".candidate-box").append(`<div class="btn-box"><button class="btn btn-primary" id=${candidateID}>Candidate2</button></div>`)
+            $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${candidateID}><label class="form-check-label" for=${candidateID}>Candidate1</label></div>`)
           })
         }
         else {
           
           for (var i = 0; i < numOfCandidates; i++ ){
             instance.getCandidate(i).then(function(data){
-              $(".candidate-box").append(`<div class="btn-box"><button class='btn btn-primary' id='${data[0]}'>${window.web3.toAscii(data[1])}</button></div>`)
+              $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${data[0]}><label class="form-check-label" for=${data[0]}>${window.web3.toAscii(data[1])}</label></div>`)
             })
           }
         }
@@ -36,15 +36,26 @@ window.App = {
       console.error("ERROR! " + err.message)
     })
   },
-  vote: function(uid,candidateID) {
+  vote: function() {
+    var uid = $("#id-input").val()
+    if (uid == ""){
+      $(".msg").html("<p>Please enter id.</p>")
+      return
+    }
+    if ($('.candidate-box :checkbox:checked').length > 0){
+      var candidateID = ('.candidate-box :checkbox:checked')[0].id
+    } 
+    else {
+      $(".msg").html("<p>Please vote for a candidate.</p>")
+      return
+    }
     VotingContract.deployed().then(function(instance){
       instance.vote(uid,parseInt(candidateID)).then(function(){
-        $(".msg").append("<p>Voted</p>")
+        $(".msg").html("<p>Voted</p>")
       })
     })
   }
 }
-
 window.addEventListener("load", function() {
   // Is there an injected web3 instance?
   if (typeof web3 !== "undefined") {
