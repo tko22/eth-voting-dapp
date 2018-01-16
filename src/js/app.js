@@ -36,12 +36,13 @@ window.App = {
       console.error("ERROR! " + err.message)
     })
   },
-  vote: function() {
+  vote: function(uid,candidateID) {
     VotingContract.deployed().then(function(instance){
-      
+      instance.vote(uid,parseInt(candidateID)).then(function(){
+        $(".msg").append("<p>Voted</p>")
+      })
     })
   }
-
 }
 
 window.addEventListener("load", function() {
