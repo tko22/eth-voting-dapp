@@ -1,7 +1,6 @@
 pragma solidity ^0.4.18;
 
 contract Voting {
-    event SomeoneVoted(uint candidateID);
 
     struct Voter {
         bytes32 uid;
@@ -36,7 +35,6 @@ contract Voting {
             voterID = numVoters++;
             voters[voterID] = Voter(uid,candidateID);
         }
-        SomeoneVoted(candidateID);
     }
 
     function totalVotes(uint candidateID) view public returns (uint) {
