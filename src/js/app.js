@@ -30,6 +30,7 @@ window.App = {
             })
           }
         }
+        window.numOfCandidates = numOfCandidates
       })
     }).catch(function(err){
       console.error("ERROR! " + err.message)
@@ -41,9 +42,9 @@ window.App = {
       $(".msg").html("<p>Please enter id.</p>")
       return
     }
-    if ($('.candidate-box :checkbox:checked').length > 0){
+    if ($(".candidate-box :checkbox:checked").length > 0){
       // just takes the first checked box
-      var candidateID = ('.candidate-box :checkbox:checked')[0].id
+      var candidateID = (".candidate-box :checkbox:checked")[0].id
     } 
     else {
       $(".msg").html("<p>Please vote for a candidate.</p>")
@@ -53,6 +54,19 @@ window.App = {
       instance.vote(uid,parseInt(candidateID)).then(function(){
         $(".msg").html("<p>Voted</p>")
       })
+    })
+  },
+  findNumOfVotes: function() {
+    VotingContract.deployed().then(function(instance){
+      var box = "<div></div>"
+      for (var i = 0; i < window.numOfCandidates; i++){
+        instance.getCandidate(i).then(function(candidateData){
+          instance.totalVotes(i).then(function(numOfVotes){
+            box.append(`<tbody><tr><td>${candidateData[0]}</td><td>${numOfVotes}</td></tr></tbody>`)
+          })
+        })
+      }
+      $("#table-body").html(box)
     })
   }
 }
