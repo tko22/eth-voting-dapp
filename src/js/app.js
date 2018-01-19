@@ -62,11 +62,11 @@ window.App = {
       for (var i = 0; i < window.numOfCandidates; i++){
         instance.getCandidate(i).then(function(candidateData){
           instance.totalVotes(i).then(function(numOfVotes){
-            box.append(`<tr><td>${candidateData[0]}</td><td>${numOfVotes}</td></tr>`)
+            box.append(`<p>${window.web3.toAscii(candidateData[1])}: ${numOfVotes}</p>`)
           })
         })
       }
-      $("tbody").html(box)
+      $("#vote-box").html(box)
     })
   }
 }
