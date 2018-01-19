@@ -12,7 +12,7 @@ var VotingContract = contract(votingArtifacts)
 window.App = {
   start: function() {
     VotingContract.setProvider(window.web3.currentProvider)
-    VotingContract.defaults({from: window.web3.eth.accounts[0]})
+    VotingContract.defaults({from: window.web3.eth.accounts[0],gas:6721975})
     VotingContract.deployed().then(function(instance){
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
         if (numOfCandidates == 0){
@@ -58,15 +58,15 @@ window.App = {
   },
   findNumOfVotes: function() {
     VotingContract.deployed().then(function(instance){
-      var box = "<div></div>"
+      var box = $("<section></section>")
       for (var i = 0; i < window.numOfCandidates; i++){
         instance.getCandidate(i).then(function(candidateData){
           instance.totalVotes(i).then(function(numOfVotes){
-            box.append(`<tbody><tr><td>${candidateData[0]}</td><td>${numOfVotes}</td></tr></tbody>`)
+            box.append(`<tr><td>${candidateData[0]}</td><td>${numOfVotes}</td></tr>`)
           })
         })
       }
-      $("#table-body").html(box)
+      $("tbody").html(box)
     })
   }
 }
