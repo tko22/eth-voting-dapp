@@ -44,7 +44,7 @@ window.App = {
     }
     if ($(".candidate-box :checkbox:checked").length > 0){
       // just takes the first checked box
-      var candidateID = (".candidate-box :checkbox:checked")[0].id
+      var candidateID = $(".candidate-box :checkbox:checked")[0].id
     } 
     else {
       $(".msg").html("<p>Please vote for a candidate.</p>")
@@ -60,10 +60,11 @@ window.App = {
     VotingContract.deployed().then(function(instance){
       var box = $("<section></section>")
       for (var i = 0; i < window.numOfCandidates; i++){
-        instance.getCandidate(i).then(function(candidateData){
-          instance.totalVotes(i).then(function(numOfVotes){
-            box.append(`<p>${window.web3.toAscii(candidateData[1])}: ${numOfVotes}</p>`)
-          })
+        var candidatePromise = instance.getCandidate(i)
+        var votesPromise = instance.totalVotes(i)
+        Promise.all([candidatePromise,votesPromise]).then(function(data){
+          box.append(`<p>${window.web3.toAscii(data[0][1])}: ${data[1]}</p>`)
+          console.log(data)
         })
       }
       $("#vote-box").html(box)
