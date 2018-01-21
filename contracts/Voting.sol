@@ -15,10 +15,18 @@ contract Voting {
         // This is so we can keep track of the candidates 
         bool doesExist; 
     }
-    
-    uint numCandidates; // declares a state variable - 
+
+    /*
+     * These state variables are used keep track of the number of Candidates/Voters 
+     * and used to as a way to index them
+     */
+    uint numCandidates; // declares a state variable - number Of Candidates
     uint numVoters;
-    // Think of this as a hash table, with the key as a uint and value of the struct Candidate
+
+    /*
+     * Think of these as a hash table, with the key as a uint and value of 
+     * the struct Candidate. 
+     */
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
 
@@ -35,11 +43,13 @@ contract Voting {
 
     function vote(bytes32 uid, uint candidateID) public returns (uint voterID) {
         if (candidates[candidateID].doesExist == true) {
-            voterID = numVoters++;
+            voterID = numVoters++; //voterID is the return variable
             voters[voterID] = Voter(uid,candidateID);
         }
     }
 
+    // finds the total amount of votes for a specific candidate by looping
+    // through voters 
     function totalVotes(uint candidateID) view public returns (uint) {
         uint numOfVotes = 0;
         for (uint i = 0; i < numVoters; i++) {
@@ -49,6 +59,10 @@ contract Voting {
         }
         return candidateID;
     }
+
+    /*
+     *  Getter Functions
+     */
 
     function getNumOfCandidates() public constant returns(uint) {
         return numCandidates;
