@@ -5,16 +5,19 @@ import "../css/style.css"
 import { default as Web3} from "web3"
 import { default as contract } from "truffle-contract"
 
+// assign contract
 import votingArtifacts from "../../build/contracts/Voting.json"
-
 var VotingContract = contract(votingArtifacts)
 
 window.App = {
   start: function() {
+    // setting up contract providers and transaction defaults for ALL contract instances
     VotingContract.setProvider(window.web3.currentProvider)
     VotingContract.defaults({from: window.web3.eth.accounts[0],gas:6721975})
+    // creates an VotingContract instance that represents default address managed by VotingContract
     VotingContract.deployed().then(function(instance){
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
+        // adds candidates to Contract if there aren't any
         if (numOfCandidates == 0){
           instance.addCandidate("Candidate1","Democratic").then(function(candidateID){
             $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${candidateID}><label class="form-check-label" for=${candidateID}>Candidate1</label></div>`)
@@ -25,52 +28,61 @@ window.App = {
         }
         else {
           for (var i = 0; i < numOfCandidates; i++ ){
+            // gets candidates and displays them
             instance.getCandidate(i).then(function(data){
               $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${data[0]}><label class="form-check-label" for=${data[0]}>${window.web3.toAscii(data[1])}</label></div>`)
             })
           }
         }
-        window.numOfCandidates = numOfCandidates
+        // sets global variable for number of Candidates
+        window.numOfCandidates = numOfCandidates 
       })
     }).catch(function(err){
       console.error("ERROR! " + err.message)
     })
   },
+  // Function that is called when user clicks the "vote" button
   vote: function() {
     var uid = $("#id-input").val()
+    // Application Logic 
     if (uid == ""){
       $(".msg").html("<p>Please enter id.</p>")
       return
     }
-    if ($(".candidate-box :checkbox:checked").length > 0){
-      // just takes the first checked box
+    if ($(".candidate-box :checkbox:checked").length > 0){ 
+      // just takes the first checked box and gets its id
       var candidateID = $(".candidate-box :checkbox:checked")[0].id
     } 
     else {
       $(".msg").html("<p>Please vote for a candidate.</p>")
       return
     }
+    // Actually voting for the Candidate using the Contract
     VotingContract.deployed().then(function(instance){
       instance.vote(uid,parseInt(candidateID)).then(function(){
         $(".msg").html("<p>Voted</p>")
       })
     })
   },
+  // function called when the "Count Votes" button is clicked
   findNumOfVotes: function() {
     VotingContract.deployed().then(function(instance){
       var box = $("<section></section>")
+      // loop through the number of candidates and displays their votes
       for (var i = 0; i < window.numOfCandidates; i++){
+        // calls two smart contract functions
         var candidatePromise = instance.getCandidate(i)
         var votesPromise = instance.totalVotes(i)
         Promise.all([candidatePromise,votesPromise]).then(function(data){
           box.append(`<p>${window.web3.toAscii(data[0][1])}: ${data[1]}</p>`)
-          console.log(data)
         })
       }
       $("#vote-box").html(box)
     })
   }
 }
+
+// When the page loads, we create a web3 instance and set a provider
 window.addEventListener("load", function() {
   // Is there an injected web3 instance?
   if (typeof web3 !== "undefined") {
@@ -82,5 +94,6 @@ window.addEventListener("load", function() {
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"))
   }
+  // initializing the App
   window.App.start()
 })
