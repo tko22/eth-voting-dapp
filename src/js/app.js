@@ -25,6 +25,7 @@ window.App = {
           instance.addCandidate("Candidate2","Republican").then(function(candidateID){
             $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${candidateID}><label class="form-check-label" for=${candidateID}>Candidate1</label></div>`)
           })
+          numOfCandidates = 2
         }
         else {
           for (var i = 0; i < numOfCandidates; i++ ){
@@ -67,17 +68,19 @@ window.App = {
   },
   // function called when the "Count Votes" button is clicked
   findNumOfVotes: function() {
+    console.log("finding")
     VotingContract.deployed().then(function(instance){
+      console.log("insidecontracgt")
       var box = $("<section></section>")
       // loop through the number of candidates and displays their votes
       for (var i = 0; i < window.numOfCandidates; i++){
         // calls two smart contract functions
         var candidatePromise = instance.getCandidate(i)
         var votesPromise = instance.totalVotes(i)
-        console.log(i)
         Promise.all([candidatePromise,votesPromise]).then(function(data){
+          console.log("inside")
+          console.log(window.web3.toAscii(data[0][1]))
           box.append(`<p>${window.web3.toAscii(data[0][1])}: ${data[1]}</p>`)
-          console.log('vote '+data[1].toNumber())
         })
       }
       $("#vote-box").html(box)

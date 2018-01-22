@@ -37,10 +37,6 @@ contract Voting {
         candidates[candidateID] = Candidate(name,party,true);
     }
 
-    function getCandidate(uint candidateID) public constant returns (uint,bytes32, bytes32) {
-        return (candidateID,candidates[candidateID].name,candidates[candidateID].party);
-    }
-
     function vote(bytes32 uid, uint candidateID) public returns (uint voterID) {
         if (candidates[candidateID].doesExist == true) {
             voterID = numVoters++; //voterID is the return variable
@@ -48,6 +44,10 @@ contract Voting {
         }
     }
 
+    /*
+     *  Getter Functions, marked by the work "constant"
+     */
+     
     // finds the total amount of votes for a specific candidate by looping
     // through voters 
     function totalVotes(uint candidateID) view public returns (uint) {
@@ -60,14 +60,15 @@ contract Voting {
         return numOfVotes;
     }
 
-    /*
-     *  Getter Functions
-     */
-    function getNumOfCandidates() public constant returns(uint) {
+    function getNumOfCandidates() public view returns(uint) {
         return numCandidates;
     }
 
-    function getNumOfVoters() public constant returns(uint) {
+    function getNumOfVoters() public view returns(uint) {
         return numVoters;
+    }
+
+    function getCandidate(uint candidateID) public view returns (uint,bytes32, bytes32) {
+        return (candidateID,candidates[candidateID].name,candidates[candidateID].party);
     }
 }
