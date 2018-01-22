@@ -18,14 +18,14 @@ contract Voting {
 
     /*
      * These state variables are used keep track of the number of Candidates/Voters 
-     * and used to as a way to index them
+     * and used as a way to index them
      */
     uint numCandidates; // declares a state variable - number Of Candidates
     uint numVoters;
 
     /*
      * Think of these as a hash table, with the key as a uint and value of 
-     * the struct Candidate. 
+     * the struct Candidate. This is basically our structure
      */
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
@@ -33,12 +33,8 @@ contract Voting {
     function addCandidate(bytes32 name, bytes32 party) public returns (uint candidateID) {
         // candidateID is the return variable
         candidateID = numCandidates++;
-        // Create new Candidate Struct with name and saves it to storage.
+        // Create new Candidate Struct with name/party and saves it to storage.
         candidates[candidateID] = Candidate(name,party,true);
-    }
-
-    function getCandidate(uint candidateID) public constant returns (uint,bytes32, bytes32) {
-        return (candidateID,candidates[candidateID].name,candidates[candidateID].party);
     }
 
     function vote(bytes32 uid, uint candidateID) public returns (uint voterID) {
@@ -48,6 +44,21 @@ contract Voting {
         }
     }
 
+    /*
+     *  Getter Functions, marked with "view", promising that it doesn't modify the state
+     */
+    function getCandidate(uint candidateID) public view returns (uint,bytes32, bytes32) {
+        return (candidateID,candidates[candidateID].name,candidates[candidateID].party);
+    }
+
+    function getNumOfCandidates() public view returns(uint) {
+        return numCandidates;
+    }
+
+    function getNumOfVoters() public view returns(uint) {
+        return numVoters;
+    }
+    
     // finds the total amount of votes for a specific candidate by looping
     // through voters 
     function totalVotes(uint candidateID) view public returns (uint) {
@@ -58,17 +69,5 @@ contract Voting {
             }
         }
         return candidateID;
-    }
-
-    /*
-     *  Getter Functions
-     */
-
-    function getNumOfCandidates() public constant returns(uint) {
-        return numCandidates;
-    }
-
-    function getNumOfVoters() public constant returns(uint) {
-        return numVoters;
     }
 }
