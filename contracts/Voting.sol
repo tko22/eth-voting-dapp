@@ -57,13 +57,12 @@ contract Voting {
                 numOfVotes++;
             }
         }
-        return candidateID;
+        return numOfVotes;
     }
 
     /*
      *  Getter Functions
      */
-
     function getNumOfCandidates() public constant returns(uint) {
         return numCandidates;
     }

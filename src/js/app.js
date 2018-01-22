@@ -59,6 +59,7 @@ window.App = {
     }
     // Actually voting for the Candidate using the Contract
     VotingContract.deployed().then(function(instance){
+      console.log(candidateID)
       instance.vote(uid,parseInt(candidateID)).then(function(){
         $(".msg").html("<p>Voted</p>")
       })
@@ -73,8 +74,10 @@ window.App = {
         // calls two smart contract functions
         var candidatePromise = instance.getCandidate(i)
         var votesPromise = instance.totalVotes(i)
+        console.log(i)
         Promise.all([candidatePromise,votesPromise]).then(function(data){
           box.append(`<p>${window.web3.toAscii(data[0][1])}: ${data[1]}</p>`)
+          console.log('vote '+data[1].toNumber())
         })
       }
       $("#vote-box").html(box)

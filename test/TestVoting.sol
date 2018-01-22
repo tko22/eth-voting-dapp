@@ -7,4 +7,7 @@ import "../contracts/Voting.sol";
 contract TestAdoption {
   Voting v = Voting(DeployedAddresses.Voting());
 
+  function testVote() public {
+    
+  }
 }
