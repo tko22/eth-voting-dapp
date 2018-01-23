@@ -45,19 +45,21 @@ contract Voting {
     }
 
     /*
-     *  Getter Functions, marked by the work "constant"
+     *  Getter Functions, marked by the key word "view"
      */
-     
+    
+
     // finds the total amount of votes for a specific candidate by looping
     // through voters 
     function totalVotes(uint candidateID) view public returns (uint) {
-        uint numOfVotes = 0;
+        uint numOfVotes = 0; // we will return this
         for (uint i = 0; i < numVoters; i++) {
+            // if the voter votes for this specific candidate, we increment the number
             if (voters[i].candidateIDVote == candidateID) {
                 numOfVotes++;
             }
         }
-        return numOfVotes;
+        return numOfVotes; 
     }
 
     function getNumOfCandidates() public view returns(uint) {
