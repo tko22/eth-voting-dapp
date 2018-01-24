@@ -61,7 +61,7 @@ window.App = {
 
   // Function that is called when user clicks the "vote" button
   vote: function() {
-    var uid = $("#id-input").val() //getting id
+    var uid = $("#id-input").val() //getting user inputted id
 
     // Application Logic 
     if (uid == ""){
