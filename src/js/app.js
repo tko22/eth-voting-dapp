@@ -21,8 +21,11 @@ window.App = {
 
     // creates an VotingContract instance that represents default address managed by VotingContract
     VotingContract.deployed().then(function(instance){
-      // calls getNumOfCandidates() function in Smart Contract
-      instance.getNumOfCandidates.call().then(function(numOfCandidates){
+
+      // calls getNumOfCandidates() function in Smart Contract, 
+      // this is not a transaction though, since the function is marked with "view" and
+      // truffle contract automatically knows this
+      instance.getNumOfCandidates().then(function(numOfCandidates){
 
         // adds candidates to Contract if there aren't any
         if (numOfCandidates == 0){
@@ -36,7 +39,8 @@ window.App = {
           instance.addCandidate("Candidate2","Republican").then(function(result){
             $(".candidate-box").append(`<div class='form-check'><input class='form-check-input' type='checkbox' value='' id=${result.logs[0].args.candidateID}><label class='form-check-label' for=1>Candidate1</label></div>`)
           })
-          numOfCandidates = 2
+          // the global variable will take the value of this variable
+          numOfCandidates = 2 
         }
         else { // if candidates were already added to the contract we loop through them and display them
           for (var i = 0; i < numOfCandidates; i++ ){
@@ -47,6 +51,7 @@ window.App = {
           }
         }
         // sets global variable for number of Candidates
+        // displaying and counting the number of Votes depends on this
         window.numOfCandidates = numOfCandidates 
       })
     }).catch(function(err){ 
