@@ -16,17 +16,15 @@ contract Voting {
         bool doesExist; 
     }
 
-    /*
-     * These state variables are used keep track of the number of Candidates/Voters 
-     * and used to as a way to index them
-     */
+    // These state variables are used keep track of the number of Candidates/Voters 
+    // and used to as a way to index them     
     uint numCandidates; // declares a state variable - number Of Candidates
     uint numVoters;
 
-    /*
-     * Think of these as a hash table, with the key as a uint and value of 
-     * the struct Candidate. 
-     */
+    
+    // Think of these as a hash table, with the key as a uint and value of 
+    // the struct Candidate. 
+
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
 
@@ -44,9 +42,9 @@ contract Voting {
         }
     }
 
-    /*
-     *  Getter Functions, marked by the key word "view"
-     */
+    /* * * * * * * * * * * * * * * * * * * * * * * * * * 
+     *  Getter Functions, marked by the key word "view" *
+     * * * * * * * * * * * * * * * * * * * * * * * * * */
     
 
     // finds the total amount of votes for a specific candidate by looping

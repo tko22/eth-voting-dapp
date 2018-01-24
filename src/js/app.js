@@ -5,20 +5,25 @@ import "../css/style.css"
 import { default as Web3} from "web3"
 import { default as contract } from "truffle-contract"
 
-// assign contract
+// import and assign compiled contract data to variable
 import votingArtifacts from "../../build/contracts/Voting.json"
 var VotingContract = contract(votingArtifacts)
 
+/*
+ * This holds all the functions for the app
+ */
 window.App = {
   // called when web3 is set up
   start: function() { 
     // setting up contract providers and transaction defaults for ALL contract instances
     VotingContract.setProvider(window.web3.currentProvider)
     VotingContract.defaults({from: window.web3.eth.accounts[0],gas:6721975})
+
     // creates an VotingContract instance that represents default address managed by VotingContract
     VotingContract.deployed().then(function(instance){
       // calls getNumOfCandidates() function in Smart Contract
       instance.getNumOfCandidates.call().then(function(numOfCandidates){
+
         // adds candidates to Contract if there aren't any
         if (numOfCandidates == 0){
           // calls addCandidate() function in Smart Contract and adds candidate with name "Candidate1"
@@ -30,7 +35,7 @@ window.App = {
           })
           numOfCandidates = 2
         }
-        else {
+        else { // if candidates were already added to the contract we loop through them and display them
           for (var i = 0; i < numOfCandidates; i++ ){
             // gets candidates and displays them
             instance.getCandidate(i).then(function(data){
@@ -41,13 +46,15 @@ window.App = {
         // sets global variable for number of Candidates
         window.numOfCandidates = numOfCandidates 
       })
-    }).catch(function(err){
+    }).catch(function(err){ 
       console.error("ERROR! " + err.message)
     })
   },
+
   // Function that is called when user clicks the "vote" button
   vote: function() {
     var uid = $("#id-input").val() //getting id
+
     // Application Logic 
     if (uid == ""){
       $(".msg").html("<p>Please enter id.</p>")
@@ -65,22 +72,26 @@ window.App = {
       $(".msg").html("<p>Please vote for a candidate.</p>")
       return
     }
-    // Actually voting for the Candidate using the Contract
+    // Actually voting for the Candidate using the Contract and displaying "Voted"
     VotingContract.deployed().then(function(instance){
       instance.vote(uid,parseInt(candidateID)).then(function(){
         $(".msg").html("<p>Voted</p>")
       })
     })
   },
+
   // function called when the "Count Votes" button is clicked
   findNumOfVotes: function() {
     VotingContract.deployed().then(function(instance){
-      var box = $("<section></section>") // this is where we will add the candidate vote Info
-      // loop through the number of candidates and displays their votes
+      // this is where we will add the candidate vote Info before replacing whatever is in #vote-box
+      var box = $("<section></section>") 
+
+      // loop through the number of candidates and display their votes
       for (var i = 0; i < window.numOfCandidates; i++){
         // calls two smart contract functions
         var candidatePromise = instance.getCandidate(i)
         var votesPromise = instance.totalVotes(i)
+        
         // resolves Promises by adding them to the variable box
         Promise.all([candidatePromise,votesPromise]).then(function(data){
           box.append(`<p>${window.web3.toAscii(data[0][1])}: ${data[1]}</p>`)
