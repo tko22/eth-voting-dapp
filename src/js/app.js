@@ -34,10 +34,10 @@ window.App = {
           // which is an array of trigger events (1 item in this case - "addedCandidate" event)
           // We use this to get the candidateID
           instance.addCandidate("Candidate1","Democratic").then(function(result){ 
-            $(".candidate-box").append(`<div class='form-check'><input class='form-check-input' type='checkbox' value='' id=${result.logs[0].args.candidateID}><label class='form-check-label' for=0>Candidate1</label></div>`)
+            $("#candidate-box").append(`<div class='form-check'><input class='form-check-input' type='checkbox' value='' id=${result.logs[0].args.candidateID}><label class='form-check-label' for=0>Candidate1</label></div>`)
           })
           instance.addCandidate("Candidate2","Republican").then(function(result){
-            $(".candidate-box").append(`<div class='form-check'><input class='form-check-input' type='checkbox' value='' id=${result.logs[0].args.candidateID}><label class='form-check-label' for=1>Candidate1</label></div>`)
+            $("#candidate-box").append(`<div class='form-check'><input class='form-check-input' type='checkbox' value='' id=${result.logs[0].args.candidateID}><label class='form-check-label' for=1>Candidate1</label></div>`)
           })
           // the global variable will take the value of this variable
           numOfCandidates = 2 
@@ -46,7 +46,7 @@ window.App = {
           for (var i = 0; i < numOfCandidates; i++ ){
             // gets candidates and displays them
             instance.getCandidate(i).then(function(data){
-              $(".candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${data[0]}><label class="form-check-label" for=${data[0]}>${window.web3.toAscii(data[1])}</label></div>`)
+              $("#candidate-box").append(`<div class="form-check"><input class="form-check-input" type="checkbox" value="" id=${data[0]}><label class="form-check-label" for=${data[0]}>${window.web3.toAscii(data[1])}</label></div>`)
             })
           }
         }
@@ -71,9 +71,9 @@ window.App = {
     // Checks whether a candidate is chosen or not.
     // if it is, we get the Candidate's ID, which we will use
     // when we call the vote function in Smart Contracts
-    if ($(".candidate-box :checkbox:checked").length > 0){ 
+    if ($("#candidate-box :checkbox:checked").length > 0){ 
       // just takes the first checked box and gets its id
-      var candidateID = $(".candidate-box :checkbox:checked")[0].id
+      var candidateID = $("#candidate-box :checkbox:checked")[0].id
     } 
     else {
       // print message if user didn't vote for candidate
