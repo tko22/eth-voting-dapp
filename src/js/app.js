@@ -65,7 +65,7 @@ window.App = {
 
     // Application Logic 
     if (uid == ""){
-      $(".msg").html("<p>Please enter id.</p>")
+      $("#msg").html("<p>Please enter id.</p>")
       return
     }
     // Checks whether a candidate is chosen or not.
@@ -77,13 +77,13 @@ window.App = {
     } 
     else {
       // print message if user didn't vote for candidate
-      $(".msg").html("<p>Please vote for a candidate.</p>")
+      $("#msg").html("<p>Please vote for a candidate.</p>")
       return
     }
     // Actually voting for the Candidate using the Contract and displaying "Voted"
     VotingContract.deployed().then(function(instance){
       instance.vote(uid,parseInt(candidateID)).then(function(result){
-        $(".msg").html("<p>Voted</p>")
+        $("#msg").html("<p>Voted</p>")
       })
     }).catch(function(err){ 
       console.error("ERROR! " + err.message)
