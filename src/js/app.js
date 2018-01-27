@@ -5,7 +5,7 @@ import "../css/style.css"
 import { default as Web3} from "web3"
 import { default as contract } from "truffle-contract"
 
-// get build artifacts from compiled smart contract and instantiate the truffle contract
+// get build artifacts from compiled smart contract and create the truffle contract
 import votingArtifacts from "../../build/contracts/Voting.json"
 var VotingContract = contract(votingArtifacts)
 
