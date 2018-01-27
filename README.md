@@ -8,7 +8,9 @@ A decentralized voting application built on the Ethereum blockchain
 
 ## Setup
 ```
+npm install -g truffle
 git clone https://github.com/tko22/eth-voting-dapp.git
 cd eth-voting-dapp
+npm install
 ```
 
