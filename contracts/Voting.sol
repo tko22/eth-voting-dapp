@@ -30,6 +30,7 @@ contract Voting {
     // Think of these as a hash table, with the key as a uint and value of 
     // the struct Candidate/Voter. These mappings will be used in the majority
     // of our transactions/calls
+    // These mappings will hold all the candidates and Voters respectively
     mapping (uint => Candidate) candidates;
     mapping (uint => Voter) voters;
     
