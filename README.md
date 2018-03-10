@@ -12,6 +12,15 @@ npm install -g truffle
 git clone https://github.com/tko22/eth-voting-dapp.git
 cd eth-voting-dapp
 npm install
+```
+Then, open up a new terminal tab:
+```
+truffle develop
+> compile
+> migrate
+```
+Go back to your previous tab:
+```
 npm run dev
 ```
 
