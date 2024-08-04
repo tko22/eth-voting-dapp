@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 // written for Solidity version 0.4.18 and above that doesnt break functionality
 
 contract Voting {
